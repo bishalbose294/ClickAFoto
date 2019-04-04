@@ -1,25 +1,25 @@
 from django.db import models
+from django.core.validators import MaxLengthValidator, MinLengthValidator
 
 # Create your models here.
 
 class Photographers(models.Model):
     
-    PhotographerID = models.PositiveIntegerField(primary_key = True)
-    UserName = models.TextField(unique = True, max_length = 15, null = False)
-    EmailID = models.EmailField(unique = True, null = False)
-    FirstName = models.TextField(max_length = 50, null = False)
-    MiddleName = models.TextField(max_length = 50)
-    LastName = models.TextField(max_length = 50, null = False)
-    DOB = models.DateField(null = False)
-    Age = models.IntegerField(null = False)
-    Gender = models.TextField(max_length = 1, null = False)
-    MobileNo = models.IntegerField(null = False)
-    Nationality = models.TextField(max_length = 30, null = False)
-    AddressLine1 = models.TextField(max_length = 255, null = False)
-    AddressLine2 = models.TextField(max_length = 255)
-    AddressLine3 = models.TextField(max_length = 255)
-    Pincode = models.IntegerField(null = False)
-    Bio = models.TextField(max_length = 500, null = False)
+    PhotographerID = models.AutoField(primary_key = True)
+    UserName = models.TextField(unique = True, max_length = 15, null = False, blank = False)
+    EmailID = models.EmailField(unique = True, null = False, blank = False)
+    FirstName = models.TextField(max_length = 50, null = False, blank = False)
+    MiddleName = models.TextField(max_length = 50, blank = True, null = True)
+    LastName = models.TextField(max_length = 50, null = False, blank = False)
+    DOB = models.DateField(null = False, blank = False)
+    Gender = models.TextField(max_length = 1, null = False, blank = False)
+    MobileNo = models.CharField(max_length = 10, null = False, blank = False)
+    Nationality = models.TextField(max_length = 30, null = False, blank = False)
+    AddressLine1 = models.TextField(max_length = 255, null = False, blank = False)
+    AddressLine2 = models.TextField(max_length = 255, blank = True, null = True)
+    AddressLine3 = models.TextField(max_length = 255, blank = True, null = True)
+    Pincode = models.IntegerField(null = False, blank = False, validators=[MaxLengthValidator(6),MinLengthValidator(6)])
+    Bio = models.TextField(max_length = 500, null = False, blank = False)
     Timestamp = models.DateTimeField(auto_now = True, null = False)
     
     def __str__(self):

@@ -1,6 +1,7 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from pictures.models import Pictures
 from django.views.generic.edit import CreateView
+
 
 # Create your views here.
 
@@ -19,3 +20,9 @@ class PicturesCreateView(CreateView):
     model = Pictures
     fields = ['PictureID', 'Name', 'Description', 'PhotographerID', 'Location', 'Keywords', 'Views', 'Visibility', 'PhotoFile']
     #fiels = "__all__" 
+    
+
+class PicturesDetailView(DetailView):
+    
+    model = Pictures
+    template_name = "pictures/pictureDetails.html"

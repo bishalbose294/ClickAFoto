@@ -1,2 +1,21 @@
 {% extends 'base_template.html' %}
 
+{% block title %}
+	Pictures
+{% endblock %}
+
+{% block body %}
+
+	{% if picturesAll %}
+		<ul>
+			{% for picture in picturesAll %}
+				<li>
+
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<h3>No pictures here to show</h3>
+	{% endif %}
+
+{% endblock %}

@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+{% extends 'base_template.html' %}
 
-</body>
-</html>
+{% block title %}
+	Photographers
+{% endblock %}
+
+{% block body %}
+
+	{% if photographersAll %}
+		<ul>
+			{% for photographer in photographersAll %}
+				 <li><a href="{% url 'users:users-detail' photographer.PhotographerID %}"> {{ photographer.UserName }} </a></li><br>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<h3>No one is here to show</h3>
+	{% endif %}
+
+{% endblock %}

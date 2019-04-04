@@ -1,0 +1,16 @@
+{% extends 'base_template.html' %}
+
+{% block title %}
+	Photographer Details
+{% endblock %}
+
+{% block body %}
+	<h2>This is from userDetails.html</h2>
+	
+	<h3>{{ photographer.UserName }}</h3>
+	
+	{% if error_message %}
+        <p><strong> {{ error_message }} </strong></p>
+    {% endif %}
+    
+{% endblock %}

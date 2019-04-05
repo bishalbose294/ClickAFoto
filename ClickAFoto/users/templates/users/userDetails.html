@@ -5,12 +5,32 @@
 {% endblock %}
 
 {% block body %}
-	<h2>This is from userDetails.html</h2>
+
+<h2>Details for {{ photographers.UserName }}</h2>
+	<h4>
 	
-	<h3>{{ photographer.UserName }}</h3>
+	<ul>
+		<li>EmailID : {{ photographers.EmailID }} </li>
+		<li>Name : {{ photographers.FirstName }} {{ photographers.MiddleName }} {{ photographers.LastName }}</li>
+		<li>Date Of Birth : {{ photographers.DOB }} </li>
+		<li>Gender : {{ photographers.Gender }} </li>
+		<li>MobileNo : {{ photographers.MobileNo }} </li>
+		<li>Nationality : {{ photographers.Nationality }} </li>
+		<li>Address : {{ photographers.AddressLine1 }} {{ photographers.AddressLine2 }} {{ photographers.AddressLine3 }}</li>
+		<li>Pincode : {{ photographers.Pincode }} </li>
+		<li>Bio : {{ photographers.Bio }} </li>
+	</ul>
+	
+	</h4>
 	
 	{% if error_message %}
         <p><strong> {{ error_message }} </strong></p>
     {% endif %}
     
+    <br>
+    <br>
+    <form action="{% url 'users:users-update' photographers.PhotographerID %}" method="get">
+     	{% csrf_token %}
+    	<button type="submit">Edit</button>
+    </form>
 {% endblock %}

@@ -14,4 +14,6 @@ urlpatterns = [
         url(r"(?P<pk>[0-9]+)/update/$", views.PhotographersUpdateView.as_view(), name='users-update'),
         
         url(r"(?P<pk>[0-9]+)/delete/$", views.PhotograhersDeleteView.as_view(), name='users-delete'),
+        
+        url(r"^register/$",views.UserFormView.as_view(), name="register"),
 ]

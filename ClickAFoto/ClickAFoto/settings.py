@@ -131,3 +131,5 @@ MEDIA_URL = '/media/'
 admin username : admin
 admin password : admin1234
 '''
+
+AUTH_USER_MODEL = 'users.Login'

@@ -9,7 +9,17 @@
 	{% if photographersAll %}
 		<ul>
 			{% for photographer in photographersAll %}
-				 <li><a href="{% url 'users:users-detail' photographer.PhotographerID %}"> {{ photographer.UserName }} </a></li><br>
+			
+				 <li><a href="{% url 'users:users-detail' photographer.PhotographerID %}"> {{ photographer.UserName }} </a> 
+				 &nbsp;&nbsp;&nbsp;
+				 
+				 <form method="post" action="{% url 'users:users-delete' photographer.PhotographerID %}">
+				 	{% csrf_token %}
+				 	<button type="submit">Delete</button>
+				 </form>
+				 </li>
+				 <br>
+				 
 			{% endfor %}
 		</ul>
 	{% else %}

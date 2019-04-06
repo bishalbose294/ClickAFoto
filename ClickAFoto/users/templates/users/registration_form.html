@@ -1,16 +1,14 @@
 {% extends 'base_template.html' %}
 
 {% block title %}
-Add Photographers
+Register
 {% endblock %}
 
 {% block body %}
 
 	<form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
-        {% include 'form_template.html' %}
-        
+        {% include "form_template.html" %}
         <input type="submit" value="Submit" >
     </form>
 

@@ -45,7 +45,6 @@ class LoginManager(BaseUserManager):
             )
         
         user.set_password(password)
-        user.is_staff = False
         user.save(using=self._db)
         
         return user
@@ -55,7 +54,6 @@ class LoginManager(BaseUserManager):
         user = self.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name )
         
         user.is_admin = True
-        user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
         
@@ -71,7 +69,7 @@ class Login (AbstractUser):
     email = models.EmailField(unique = True, null = False, blank = False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now = True)
     last_login = models.DateTimeField(null = True)
     SQ1 = models.CharField(max_length = 100)
@@ -88,7 +86,7 @@ class Login (AbstractUser):
     REQUIRED_FIELDS = ['first_name','last_name','email']
     
     def __str__(self):
-        return self.username + " - " + self.LastLoginTimestamp
+        return self.username
     
 
 class Statistics (models.Model):

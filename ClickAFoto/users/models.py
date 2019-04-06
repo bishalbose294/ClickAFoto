@@ -9,7 +9,7 @@ from django.contrib.auth.base_user import BaseUserManager
 class Photographers(models.Model):
     
     PhotographerID = models.AutoField(primary_key = True)
-    UserName = models.CharField(unique = True, max_length = 15, null = False, blank = False)
+    username = models.CharField(unique = True, max_length = 15, null = False, blank = False)
     EmailID = models.EmailField(unique = True, null = False, blank = False)
     FirstName = models.CharField(max_length = 50, null = False, blank = False)
     MiddleName = models.CharField(max_length = 50, blank = True, null = True)
@@ -23,10 +23,10 @@ class Photographers(models.Model):
     AddressLine3 = models.TextField(max_length = 255, blank = True, null = True)
     Pincode = models.CharField(max_length = 6, null = False, blank = False)
     Bio = models.TextField(max_length = 500, null = False, blank = False)
-    Timestamp = models.DateTimeField(auto_now = True, null = False)
+    Timestamp = models.DateTimeField(auto_now = True)
     
     def __str__(self):
-        return self.UserName + " - " + self.FirstName + " - " + self.LastName + " - " + self.Bio
+        return self.username + " - " + self.FirstName + " - " + self.LastName + " - " + self.Bio
     
     def get_absolute_url(self):
         return reverse('users:users-detail', kwargs={'pk': self.PhotographerID})
@@ -35,50 +35,60 @@ class Photographers(models.Model):
 
 class LoginManager(BaseUserManager):
     
-    def create_user(self, UserName, Password=None):
+    def create_user(self, username, email=None, password=None, **extra_fields):
         
-        user = self.model(UserName=UserName)
+        user = self.model(
+            username=username,
+            email=self.normalize_email(email),
+            first_name = extra_fields['first_name'],
+            last_name = extra_fields['last_name']
+            )
         
-        user.set_password(Password)
-        user.save(using=self._db())
+        user.set_password(password)
+        user.is_staff = False
+        user.save(using=self._db)
         
         return user
     
-    def create_superuser(self, UserName, Password=None):
+    def create_superuser(self, username, email, password, first_name, last_name):
         
-        user = self.create_user(UserName, Password)
+        user = self.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name )
         
         user.is_admin = True
-        user.save(using=self._db())
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
         
         return user
 
 
 class Login (AbstractUser):
     
-    PhotographerID = models.ForeignKey(Photographers, on_delete=models.CASCADE)
-    #UserName = models.OneToOneField(User, on_delete=models.CASCADE)
-    UserName = models.CharField(unique = True, max_length = 15, null = False, blank = False)
-    Password = models.CharField(max_length = 32, null = False, default = "password", blank = False) #Password field will be defined in forms.py for Model Form
+    username = models.CharField(unique = True, max_length = 15, null = False, blank = False)
+    password = models.CharField(max_length = 500,null = False, default="password123", blank = False) #password field will be defined in forms.py for Model Form
+    first_name = models.CharField(max_length = 50, null = False, blank = False)
+    last_name = models.CharField(max_length = 50, null = False, blank = False)
+    email = models.EmailField(unique = True, null = False, blank = False)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now = True)
+    last_login = models.DateTimeField(null = True)
     SQ1 = models.CharField(max_length = 100)
     SA1 = models.CharField(max_length = 100)
     SQ2 = models.CharField(max_length = 100)
     SA2 = models.CharField(max_length = 100)
     SQ3 = models.CharField(max_length = 100)
     SA3 = models.CharField(max_length = 100)
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-    TimeStamp = models.DateTimeField(auto_now = True, null = False, blank = False)
-    LastLoginTimestamp = models.DateTimeField(auto_now = True)
     
-    
+
     objects = LoginManager()
     
-    USERNAME_FIELD = 'UserName'
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['first_name','last_name','email']
     
     def __str__(self):
-        return self.UserName + " - " + self.LastLoginTimestamp
+        return self.username + " - " + self.LastLoginTimestamp
     
 
 class Statistics (models.Model):
